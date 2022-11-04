@@ -16,14 +16,14 @@
 <div class="login_banner">
 
     <div id="l_content">
-        <span class="login_word">欢迎登录</span>
+        <span class="login_word">欢迎</span>
     </div>
 
     <div id="content">
         <div class="login_form">
             <div class="login_box">
                 <div class="tit">
-                    <h1>会员</h1>
+                    <h1>登录</h1>
                     <a href="pages/user/regist.jsp">立即注册</a>
                 </div>
                 <div class="msg_cont">

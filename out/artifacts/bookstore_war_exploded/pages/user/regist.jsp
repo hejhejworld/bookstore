@@ -5,10 +5,20 @@
     <meta charset="UTF-8">
     <title>注册</title>
     <base href="http://localhost:8080/bookstore/">
-	<link type="text/css" rel="stylesheet" href="static/css/style.css">
+    <link type="text/css" rel="stylesheet" href="static/css/style.css">
     <script src="static/script/jquery-3.6.1.js"></script>
     <script type="text/javascript">
         $(function () {
+
+            /**
+             * 单击验证码图片更新验证码，
+             * 单机时会修改src属性使其发起新的请求获取验证码，
+             * 为了防止浏览器缓存造成无法更新，所以在请求末尾加上日期作为请求参数
+             */
+            $("#codeimg").click(function () {
+                this.src = "kaptcha?d=" + new Date();
+            })
+
             $("#sub_btn").click(function () {
                 //判断用户名是否合法
                 let usernameText = $("#username").val();
@@ -30,13 +40,13 @@
                 let repwd = $("#repwd").val();
                 if (password != repwd) {
                     $("span.errorMsg").text("用户密码与确认密码不一致");
-                    return  false;
+                    return false;
                 }
 
                 //邮箱地址是否合法
                 let email = $("#email").val();
                 let emailPatt = /^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/;
-                if (! emailPatt.test(email)) {
+                if (!emailPatt.test(email)) {
                     $("span.errorMsg").text("邮箱地址不合法");
                     return false;
                 }
@@ -52,17 +62,12 @@
             })
         })
     </script>
-	<style type="text/css">
+    <style type="text/css">
         .login_form {
             height: 420px;
             margin-top: 25px;
         }
     </style>
-	<script type="text/javascript">
-		$(function () {
-
-		})
-	</script>
 </head>
 <body>
 <div id="login_header">
@@ -98,7 +103,7 @@
                         <br/>
                         <label>确认密码：</label>
                         <input class="itxt" type="password" placeholder="确认密码" autocomplete="off" tabindex="1"
-                               name="repwd" id="repwd"value="${requestScope.repwd}"/>
+                               name="repwd" id="repwd" value="${requestScope.repwd}"/>
                         <br/>
                         <br/>
                         <label>电子邮件：</label>
@@ -107,8 +112,9 @@
                         <br/>
                         <br/>
                         <label>验证码：</label>
-                        <input class="itxt" type="text" style="width: 150px;" id="code"/>
-                        <img alt="" src="kaptcha" style="float: right; margin-right: 40px"; width="80px"; height="40px">
+                        <input class="itxt" type="text" style="width: 150px;" id="code" name="code"/>
+                        <img id="codeimg" alt="验证码" src="kaptcha" style="float: right; margin-right: 40px" ; width="80px" ;
+                             height="40px">
                         <br/>
                         <br/>
                         <input type="submit" value="注册" id="sub_btn"/>

@@ -23,13 +23,12 @@
         <div>
             <span>欢迎<span class="um_span">${sessionScope.username}</span>光临书城</span>
             <a href="order/order.jsp">我的订单</a>
-            <a href="index.jsp">注销</a>&nbsp;&nbsp;
-            <a href="index.jsp">返回</a>
+            <a href="userservlet?action=logout">注销</a>&nbsp;&nbsp;
         </div>
     </div>
 
     <div id="main">
-        <h1>欢迎回来 <a href="index.jsp">转到主页</a></h1>
+        <h1>登录成功 <a href="index.jsp">转到主页</a></h1>
     </div>
 
     <div id="bottom">

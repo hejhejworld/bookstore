@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
+
+
 public class UserServlet extends BaseServlet {
 
     private UserService userService = new UserServiceImpl();
@@ -23,12 +26,18 @@ public class UserServlet extends BaseServlet {
         String code = req.getParameter("code");
 
         HttpSession session = req.getSession();
-        String KaptchaCode = (String) session.getAttribute("KAPTCHA_SESSION_KEY");
+        String kaptchaCode = (String) session.getAttribute(KAPTCHA_SESSION_KEY);
 
-        if (!code.equalsIgnoreCase(KaptchaCode)) {
+        //对比验证码是否正确，如果错误回显注册信息，正确则删除服务器中的验证码，防止表单重复提交
+        if (!code.equalsIgnoreCase(kaptchaCode)) {
+            req.setAttribute("username", username);
+            req.setAttribute("password", req.getParameter("password"));
+            req.setAttribute("repwd", req.getParameter("repwd"));
+            req.setAttribute("email", req.getParameter("email"));
             req.setAttribute("errorMge", "验证码错误！");
             req.getRequestDispatcher("/pages/user/regist.jsp").forward(req,resp);
-        }
+            return;
+        } else session.removeAttribute(KAPTCHA_SESSION_KEY);
 
         //用户名是否已存在
         if (userService.existUsername(username)) {
@@ -48,6 +57,7 @@ public class UserServlet extends BaseServlet {
         }
         else {
             userService.registUser(user);
+            session.setAttribute("username", username);
             try {
                 req.getRequestDispatcher("/pages/user/regist_success.jsp").forward(req, resp);
             } catch (ServletException e) {
@@ -77,11 +87,9 @@ public class UserServlet extends BaseServlet {
 
         //用户名密码正确
         } else {
-            //发送Cookie，存活时间为一周
+            //创建Cookie，设置存活时间为一周
             Cookie usernameCookie = new Cookie("username", username);
             Cookie passwordCookie = new Cookie("password", password);
-//            usernameCookie.setPath(req.getContextPath() + "/pages/user/login.jsp");
-//            passwordCookie.setPath(req.getContextPath() + "/pages/user/login.jsp");
             usernameCookie.setMaxAge(60 * 60 * 24 * 7);
             passwordCookie.setMaxAge(60 * 60 * 24 * 7);
             resp.addCookie(usernameCookie);
