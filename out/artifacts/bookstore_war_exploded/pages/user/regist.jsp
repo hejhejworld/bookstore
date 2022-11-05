@@ -13,12 +13,13 @@
             /**
              * 单击验证码图片更新验证码，
              * 单机时会修改src属性使其发起新的请求获取验证码，
-             * 为了防止浏览器缓存造成无法更新，所以在请求末尾加上日期作为请求参数
+             * 为了防止浏览器缓存造成无法更新，所以在请求末尾加上当前时间作为请求参数
              */
             $("#codeimg").click(function () {
                 this.src = "kaptcha?d=" + new Date();
             })
 
+            //检查表单内容
             $("#sub_btn").click(function () {
                 //判断用户名是否合法
                 let usernameText = $("#username").val();

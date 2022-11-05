@@ -48,4 +48,13 @@
         <servlet-name>KaptchaServlet</servlet-name>
         <url-pattern>/kaptcha</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CartServlet</servlet-name>
+        <servlet-class>com.web.CartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CartServlet</servlet-name>
+        <url-pattern>/cartservlet</url-pattern>
+    </servlet-mapping>
 </web-app>

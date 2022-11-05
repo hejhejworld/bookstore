@@ -5,7 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
+    <base href="http://localhost:8080/bookstore/">
     <link type="text/css" rel="stylesheet" href="static/css/style.css">
+    <script src="static/script/jquery-3.6.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("button.addToCart").click(function () {
+                let bookid = $(this).attr("bookid");
+                location.href = "http://localhost:8080/bookstore/cartservlet?action=addItem&id=" + bookid;
+            })
+        })
+    </script>
 </head>
 <body>
 
@@ -41,9 +51,17 @@
         </div>
 
         <div style="text-align: center">
-            <span>您的购物车中有3件商品</span>
+            <span>您的购物车中有
+                <c:if test="${empty sessionScope.cart.totalCount}"> 0 </c:if>
+                <c:if test="${not empty sessionScope.cart.totalCount}"> ${sessionScope.cart.totalCount} </c:if>
+                件商品
+            </span>
             <div>
-                您刚刚将<span style="color: red">时间简史</span>加入到了购物车中
+                <c:if test="${not empty sessionScope.lastItemName}">
+                    <span style="color: red">
+                            ${sessionScope.lastItemName}
+                    </span>已添加到购物车
+                </c:if>
             </div>
         </div>
 
@@ -74,7 +92,7 @@
                         <span class="sp2">${book.stock}</span>
                     </div>
                     <div class="book_add">
-                        <button>加入购物车</button>
+                        <button id="bookadd" class="addToCart" bookid="${book.bookid}">加入购物车</button>
                     </div>
                 </div>
             </div>

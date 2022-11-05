@@ -3,24 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-
-    <servlet>
-        <servlet-name>RegistServlet</servlet-name>
-        <servlet-class>com.web.RegistServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RegistServlet</servlet-name>
-        <url-pattern>/registservlet</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>com.web.LoginServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/loginservlet</url-pattern>
-    </servlet-mapping>
     
     <servlet>
         <servlet-name>FileServleet</servlet-name>
@@ -65,5 +47,14 @@
     <servlet-mapping>
         <servlet-name>KaptchaServlet</servlet-name>
         <url-pattern>/kaptcha</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CartServlet</servlet-name>
+        <servlet-class>com.web.CartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CartServlet</servlet-name>
+        <url-pattern>/cartservlet</url-pattern>
     </servlet-mapping>
 </web-app>
