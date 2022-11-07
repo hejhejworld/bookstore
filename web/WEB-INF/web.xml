@@ -57,4 +57,13 @@
         <servlet-name>CartServlet</servlet-name>
         <url-pattern>/cartservlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>com.web.OrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/orderservlet</url-pattern>
+    </servlet-mapping>
 </web-app>

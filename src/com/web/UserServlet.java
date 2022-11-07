@@ -99,6 +99,7 @@ public class UserServlet extends BaseServlet {
             HttpSession session = req.getSession();
             req.getSession().setMaxInactiveInterval(30);
             req.getSession().setAttribute("username", username);
+            req.getSession().setAttribute("userid", userService.loginUser(user).getUserid());
 
             try {
                 req.getRequestDispatcher("/pages/user/login_success.jsp").forward(req, resp);

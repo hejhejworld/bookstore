@@ -21,8 +21,8 @@
     <div id="header">
         <img class="logo_img" alt="" src="static/img/logo.jpg">
         <div>
-            <span>欢迎<span class="um_span">${sessionScope.username}</span>光临书城</span>
-            <a href="order/order.jsp">我的订单</a>
+            <span>欢迎<span class="um_span">${sessionScope.username}</span>访问书城</span>
+            <a href="pages/order/order.jsp">我的订单&nbsp; </a>
             <a href="userservlet?action=logout">注销</a>&nbsp;&nbsp;
         </div>
     </div>

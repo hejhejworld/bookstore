@@ -3,10 +3,11 @@ package com.entity;
 import java.util.*;
 
 /**
- * 使用session实现购物车功能，没有使用数据库，因为session是web层API，所以直接在web层实现
+ * 使用session实现购物车功能，不用操作数据库，所以没有dao，因为session是web层API，所以直接在web层实现不用service
  */
 public class Cart {
 
+    //用map存储购物车商品，key是bookid，value是CartItem对象
     private Map<Integer, CartItem> items = new LinkedHashMap<>();
 
     @Override

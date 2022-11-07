@@ -1,35 +1,32 @@
 package com.entity;
 
-/**
- * 因为购物车中同一个商品可以有多件，要有数量和总价属性，所以不能用Book类
- */
-public class CartItem {
+public class OrderItem {
 
     private Integer id;
     private String name;
-    private Integer count;
     private Double price;
     private Double totalPrice;
+    private String orderid;
 
-    public CartItem() {
-    }
-
-    public CartItem(Integer id, String name, Integer count, Double price, Double totalPrice) {
+    public OrderItem(Integer id, String name, Double price, Double totalPrice, String orderid) {
         this.id = id;
         this.name = name;
-        this.count = count;
         this.price = price;
         this.totalPrice = totalPrice;
+        this.orderid = orderid;
+    }
+
+    public OrderItem() {
     }
 
     @Override
     public String toString() {
-        return "CartItem{" +
-                "id='" + id + '\'' +
+        return "OrderItem{" +
+                "id=" + id +
                 ", name='" + name + '\'' +
-                ", count=" + count +
                 ", price=" + price +
                 ", totalPrice=" + totalPrice +
+                ", orderid='" + orderid + '\'' +
                 '}';
     }
 
@@ -49,14 +46,6 @@ public class CartItem {
         this.name = name;
     }
 
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
-
     public Double getPrice() {
         return price;
     }
@@ -71,5 +60,13 @@ public class CartItem {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getOrderid() {
+        return orderid;
+    }
+
+    public void setOrderid(String orderid) {
+        this.orderid = orderid;
     }
 }

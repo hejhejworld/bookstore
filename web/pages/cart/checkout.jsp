@@ -4,7 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <title>结算页面</title>
-<link type="text/css" rel="stylesheet" href="../../static/css/style.css" >
+	<base href="http://localhost:8080/bookstore/">
+<link type="text/css" rel="stylesheet" href="static/css/style.css" >
 <style type="text/css">
 	h1 {
 		text-align: center;
@@ -15,19 +16,19 @@
 <body>
 	
 	<div id="header">
-			<img class="logo_img" alt="" src="../../static/img/logo.jpg" >
+			<img class="logo_img" alt="" src="static/img/logo.jpg" >
 			<span class="wel_word">结算</span>
 			<div>
-				<span>欢迎<span class="um_span">韩总</span>光临书城</span>
+				<span>欢迎<span class="um_span">${sessionScope.username}</span>访问书城</span>
 				<a href="../order/order.jsp">我的订单</a>
-				<a href="../../index.jsp">注销</a>&nbsp;&nbsp;
-				<a href="../../index.jsp">返回</a>
+				<a href="index.jsp">注销</a>&nbsp;&nbsp;
+				<a href="index.jsp">返回</a>
 			</div>
 	</div>
 	
 	<div id="main">
 		
-		<h1>你的订单已结算，订单号为2937474382928484747</h1>
+		<h1>你的订单已结算，订单号为${sessionScope.orderid}</h1>
 		
 	
 	</div>

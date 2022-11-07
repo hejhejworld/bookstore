@@ -10,9 +10,17 @@
     <script src="static/script/jquery-3.6.1.js"></script>
     <script type="text/javascript">
         $(function () {
+
+            //添加到购物车
             $("button.addToCart").click(function () {
                 let bookid = $(this).attr("bookid");
                 location.href = "http://localhost:8080/bookstore/cartservlet?action=addItem&id=" + bookid;
+            })
+
+            //指定页面跳转
+            $("#jumpBtn").click(function () {
+                let currentPage = $("#pn_input").val();
+                location.href = "${requestScope.page.url}&currentPage=" + currentPage;
             })
         })
     </script>
@@ -29,7 +37,7 @@
         </c:if>
         <c:if test="${not empty sessionScope.username}">
             <span>欢迎<span class="um_span">${sessionScope.username}</span>光临书城</span>
-            <a href="order/order.jsp">我的订单</a>
+            <a href="pages/order/order.jsp">我的订单</a>
             <a href="userservlet?action=logout">注销</a>&nbsp;&nbsp;
             <a href="index.jsp">返回</a>
         </c:if>
