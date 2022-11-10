@@ -66,4 +66,32 @@
         <servlet-name>OrderServlet</servlet-name>
         <url-pattern>/orderservlet</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>ManagerFilter</filter-name>
+        <filter-class>com.filter.ManagerFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ManagerFilter</filter-name>
+        <url-pattern>/pages/manager/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>TransationFilter</filter-name>
+        <filter-class>com.filter.TransactionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>TransationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <error-page>
+<!--        错误类型-->
+        <error-code>500</error-code>
+<!--        跳转地址-->
+        <location>/pages/error/error500.html</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/pages/error/error404.html</location>
+    </error-page>
 </web-app>

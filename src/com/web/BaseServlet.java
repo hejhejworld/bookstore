@@ -21,6 +21,8 @@ public abstract class BaseServlet extends HttpServlet {
             declaredMethod.invoke(this, req, resp);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
+            //抛出异常给TransactionFilter处理数据库事务
+            throw new RuntimeException(e);
         }
     }
 

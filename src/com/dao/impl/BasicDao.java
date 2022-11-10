@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * 如果捕获到异常要往外抛，这样外层回滚调用的时候才捕获得到这里的异常
+ */
 public class BasicDao {
 
     private QueryRunner queryRunner = new QueryRunner();
@@ -23,10 +26,8 @@ public class BasicDao {
             return queryRunner.update(conn, sql, parameters);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            JdbcUtils.close(conn);
+            throw new RuntimeException(throwables);
         }
-        return -1;
     }
 
     //查询单行单列
@@ -38,10 +39,8 @@ public class BasicDao {
             return queryRunner.query(conn, sql, new ScalarHandler(), parameters);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            JdbcUtils.close(conn);
+            throw new RuntimeException(throwables);
         }
-        return null;
     }
 
     //查询单行
@@ -53,10 +52,8 @@ public class BasicDao {
             return queryRunner.query(conn, sql, new BeanHandler<T>(clazz), parmeters);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            JdbcUtils.close(conn);
+            throw new RuntimeException(throwables);
         }
-        return null;
     }
 
     //查询多行
@@ -67,10 +64,8 @@ public class BasicDao {
             return queryRunner.query(conn, sql, new BeanListHandler<T> (clazz), parameters);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            JdbcUtils.close(conn);
+            throw new RuntimeException(throwables);
         }
-        return null;
     }
 
 }

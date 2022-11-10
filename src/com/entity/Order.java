@@ -2,6 +2,12 @@ package com.entity;
 
 import java.util.Date;
 
+/**
+ * 一个购物车生成一个Order对象，
+ * 购物车中的每个商品分别为一个OrderItem对象，
+ * Order和OrderItem用订单id关联
+ */
+
 public class Order {
 
     //status表示订单状态，0未发货，1已发货，2已签收

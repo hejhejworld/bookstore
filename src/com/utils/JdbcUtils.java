@@ -9,9 +9,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * 使用druid连接池连接数据库，
+ * 数据库事务是基于Connection连接的
+ * 为了保证操作的是同一个数据库连接，使用线程局部变量保存数据库连接
+ */
 public class JdbcUtils {
 
     private static DataSource dataSource;
+    private static ThreadLocal<Connection> conn = new ThreadLocal<Connection>();
 
     //    static {
 //        Properties properties = new Properties();
@@ -39,24 +45,59 @@ public class JdbcUtils {
 
     public static Connection getConnection() {
 
-        Connection conn = null;
+        Connection conn = JdbcUtils.conn.get();
 
-        try {
-            conn = dataSource.getConnection();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return conn;
-    }
-
-    public static void close(Connection conn) {
-        if (conn != null) {
+        if (conn == null) {
             try {
-                conn.close();
+                conn = dataSource.getConnection();
+                JdbcUtils.conn.set(conn);
+                //设为手动管理事务
+                conn.setAutoCommit(false);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
+        return conn;
+    }
+
+    public static void commitAndClose() {
+
+        Connection conn = JdbcUtils.conn.get();
+
+        if (conn != null) {
+            try {
+                conn.commit();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } finally {
+                try {
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        }
+        JdbcUtils.conn.remove();
+    }
+
+    public static void rollbcakAndClose() {
+
+        Connection conn = JdbcUtils.conn.get();
+
+        if (conn != null) {
+            try {
+                conn.rollback();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } finally {
+                try {
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        }
+        JdbcUtils.conn.remove();
     }
 
 }

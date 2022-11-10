@@ -15,7 +15,8 @@ public class OrderServlet extends BaseServlet{
     public void createOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Cart cart = (Cart) req.getSession().getAttribute("cart");
         Integer userid = (Integer) req.getSession().getAttribute("userid");
-        String orderid = orderService.creatOrder(cart, userid);
+        String orderid = null;
+        orderid = orderService.creatOrder(cart, userid);
         cart.clear();
         req.getSession().removeAttribute("lastItemName");
         //回显订单号
