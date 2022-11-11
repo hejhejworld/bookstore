@@ -10,6 +10,20 @@
     <script type="text/javascript">
         $(function () {
 
+            //失去焦点时，使用ajxs判断用户名是否已存在
+            $("#username").blur(function () {
+                var username = this.value;
+                $.getJSON("http://localhost:8080/bookstore/userservlet",
+                    "action=existUsername&username=" + username,
+                    function (data) {
+                        if (data.result)
+                            $("span.errorMsg").text("用户名已存在");
+                        else
+                            $("span.errorMsg").text("用户名可用");
+                    }
+                )
+            })
+
             /**
              * 单击验证码图片更新验证码，
              * 单机时会修改src属性使其发起新的请求获取验证码，

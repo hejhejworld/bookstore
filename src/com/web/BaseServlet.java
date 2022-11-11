@@ -15,6 +15,8 @@ public abstract class BaseServlet extends HttpServlet {
 
         //chrome的默认url编码是utf8，设置服务器使用utf8解码，解决post请求的中文乱码问题
         req.setCharacterEncoding("UTF-8");
+        //设置编码，解决lastItemName响应数据乱码
+        resp.setCharacterEncoding("UTF-8");
         String action = req.getParameter("action");
         try {
             Method declaredMethod = this.getClass().getDeclaredMethod(action, HttpServletRequest.class, HttpServletResponse.class);

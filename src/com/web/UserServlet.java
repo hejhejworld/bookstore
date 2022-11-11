@@ -1,6 +1,7 @@
 package com.web;
 
 import com.entity.User;
+import com.google.gson.Gson;
 import com.service.UserService;
 import com.service.impl.UserServiceImpl;
 import com.utils.WebUtils;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 
@@ -39,32 +42,14 @@ public class UserServlet extends BaseServlet {
             return;
         } else session.removeAttribute(KAPTCHA_SESSION_KEY);
 
-        //用户名是否已存在
-        if (userService.existUsername(username)) {
-            //用户名已存在，回显信息
-            req.setAttribute("username", username);
-            req.setAttribute("password", req.getParameter("password"));
-            req.setAttribute("repwd", req.getParameter("repwd"));
-            req.setAttribute("email", req.getParameter("email"));
-            req.setAttribute("errorMge", "用户名已被占用！");
-            try {
-                req.getRequestDispatcher("/pages/user/regist.jsp").forward(req, resp);
-            } catch (ServletException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            userService.registUser(user);
-            session.setAttribute("username", username);
-            try {
-                req.getRequestDispatcher("/pages/user/regist_success.jsp").forward(req, resp);
-            } catch (ServletException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        userService.registUser(user);
+        session.setAttribute("username", username);
+        try {
+            req.getRequestDispatcher("/pages/user/regist_success.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -115,4 +100,22 @@ public class UserServlet extends BaseServlet {
         req.getSession().invalidate();
         resp.sendRedirect(req.getContextPath() + "/pages/user/login.jsp");
     }
+
+    /**
+     * 用Gson将查询结果封装成json字符串发送
+     * @param req
+     * @param resp
+     */
+     public void existUsername(HttpServletRequest req, HttpServletResponse resp) {
+         String username = req.getParameter("username");
+         boolean result = userService.existUsername(username);
+         Map<String, Boolean> resultMap = new HashMap<>();
+         resultMap.put("result", result);
+         Gson gson = new Gson();
+         try {
+             resp.getWriter().write(gson.toJson(resultMap));
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+     }
 }

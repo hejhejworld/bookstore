@@ -3,6 +3,7 @@ package com.web;
 import com.entity.Book;
 import com.entity.Cart;
 import com.entity.CartItem;
+import com.google.gson.Gson;
 import com.service.BookService;
 import com.service.impl.BookServiceImpl;
 import com.utils.WebUtils;
@@ -10,6 +11,8 @@ import com.utils.WebUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CartServlet extends BaseServlet {
 
@@ -23,8 +26,13 @@ public class CartServlet extends BaseServlet {
             req.getSession().setAttribute("cart", new Cart());
         Cart cart = (Cart) req.getSession().getAttribute("cart");
         cart.addItem(cartItem);
-        req.getSession().setAttribute("lastItemName", cartItem.getName());
-        resp.sendRedirect(req.getHeader("Referer"));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("lastItemName", cartItem.getName());
+        result.put("toTalCount", cart.getTotalCount());
+        resp.getWriter().write(new Gson().toJson(result));
+
+
     }
 
     public void deleteItem(HttpServletRequest req, HttpServletResponse resp) throws IOException {

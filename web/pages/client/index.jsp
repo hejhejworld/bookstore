@@ -11,10 +11,18 @@
     <script type="text/javascript">
         $(function () {
 
-            //添加到购物车
+            //添加商品到购物车
             $("button.addToCart").click(function () {
+                //方法一
+                // let bookid = $(this).attr("bookid");
+                // location.href = "http://localhost:8080/bookstore/cartservlet?action=addItem&id=" + bookid;
+
+                //方法二，使用Ajax
                 let bookid = $(this).attr("bookid");
-                location.href = "http://localhost:8080/bookstore/cartservlet?action=addItem&id=" + bookid;
+                $.getJSON("http://localhost:8080/bookstore/cartservlet", "action=addItem&id=" + bookid, function (data) {
+                    $("#lastItemName").text("【" + data.lastItemName + "】已添加到购物车");
+                    $("#cartTotalCount").text("您的购物车中有" + data.toTalCount + "件商品");
+                })
             })
 
             //指定页面跳转
@@ -36,7 +44,7 @@
             <a href="pages/user/regist.jsp">注册</a>
         </c:if>
         <c:if test="${not empty sessionScope.username}">
-            <span>欢迎<span class="um_span">${sessionScope.username}</span>光临书城</span>
+            <span>欢迎<span class="um_span">${sessionScope.username}</span>访问书城</span>
             <a href="pages/order/order.jsp">我的订单</a>
             <a href="userservlet?action=logout">注销</a>&nbsp;&nbsp;
             <a href="index.jsp">返回</a>
@@ -59,18 +67,12 @@
         </div>
 
         <div style="text-align: center">
-            <span>您的购物车中有
+            <span id="cartTotalCount">您的购物车中有
                 <c:if test="${empty sessionScope.cart.totalCount}"> 0 </c:if>
                 <c:if test="${not empty sessionScope.cart.totalCount}"> ${sessionScope.cart.totalCount} </c:if>
                 件商品
             </span>
-            <div>
-                <c:if test="${not empty sessionScope.lastItemName}">
-                    <span style="color: red">
-                            ${sessionScope.lastItemName}
-                    </span>已添加到购物车
-                </c:if>
-            </div>
+            <div id="lastItemName"></div>
         </div>
 
         <c:forEach items="${requestScope.page.items}" var="book">
